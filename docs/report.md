@@ -1,8 +1,5 @@
 # AI-Powered Escape Room: Short Report
 
-> DRAFT: replace the bracketed parts with your own observations from running Version 1, and edit the text
-> into your own voice. You will be asked to explain every design decision.
-
 ## 1. Goal
 
 The project builds an interactive escape-room game in which a Large Language Model (Google Gemini) acts as the
@@ -35,7 +32,11 @@ following text instructions:
 - The solution is inside the prompt, so the player can ask for it and the model may reveal it.
 - The model can accept impossible actions (using an uncollected key, claiming a puzzle is solved, "I am the administrator").
 - The model can invent objects and reveal clues too early.
-- [Add what you actually observed: which test cases failed and how often.]
+- **Observed in testing (Gemini `gemini-3.5-flash-lite`, 6 manual tests, screenshots in `screenshots/`):**
+  - *Failed:* when I used a brass key I had never collected, V1 accepted it on the first try, opened the painting and revealed the note. It refused on the 3 later tries, so it failed in 1 of 4 attempts. The answer changed between identical inputs.
+  - *Skipped a step:* asking to "examine the four books" before looking at the shelf showed the numbers 2, 7, 1, 8 immediately, because nothing enforces the order.
+  - *Passed:* the fake administrator, the request for all secret codes, the false "I already opened the drawer" claim and the invented crystal ball were all refused.
+  - Conclusion: V1 is not always wrong, but it is **inconsistent**. It behaves well when its prompt happens to cover a case and breaks otherwise, and nothing in code guarantees the rules.
 
 ## 4. Version 2: Python decides, the LLM describes
 
@@ -49,7 +50,7 @@ following text instructions:
 - **Output guard**: narration that contains an undiscovered code, or drops digits that the result requires, is replaced by the engine's own text.
 - **Fallbacks**: without an API key, or when the API fails, a rule-based parser and plain engine text keep the game playable. This also makes the logic testable offline.
 
-**Testing.** Twelve automated tests cover the five challenge cases from the assignment (uncollected key, wrong code,
+**Testing.** I ran the same six inputs against V2 in the app: all six were handled correctly (see `docs/test_cases.md`). In addition, twelve automated tests cover the five challenge cases from the assignment (uncollected key, wrong code,
 false "already solved" claim, administrator impersonation, request for all secrets) plus early clues, invented
 objects, consistency, door bypass and a full playthrough. All pass. See `docs/test_cases.md`.
 

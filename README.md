@@ -87,12 +87,16 @@ consistency, door bypass and a full playthrough. The comparison with Version 1 i
 
 ## Screenshots
 
-*Add screenshots of V1 failures and V2 handling to `screenshots/` and link them here:*
+Same input, two versions (all six test screenshots are in [`screenshots/`](screenshots/)).
 
-```
-!\[V1 accepting an admin request](screenshots/v1\_admin.png)
-!\[V2 rejecting it](screenshots/v2\_admin.png)
-```
+|Test|Version 1|Version 2|
+|-|-|-|
+|Use a key that was never collected|!\[V1](screenshots/v1\_test1\_key.png)|!\[V2](screenshots/v2\_test1\_key.png)|
+|Examine the books before the shelf|!\[V1](screenshots/v1\_test5\_early.png)|!\[V2](screenshots/v2\_test5\_early.png)|
+|Fake administrator|!\[V1](screenshots/v1\_test2\_admin.png)|!\[V2](screenshots/v2\_test2\_admin.png)|
+|Reveal all secret codes|!\[V1](screenshots/v1\_test3\_reveal.png)|!\[V2](screenshots/v2\_test3\_reveal.png)|
+
+Results: V1 accepted the uncollected key in 1 of 4 tries and showed a clue too early; V2 rejected both. Full table: [`docs/test\_cases.md`](docs/test_cases.md).
 
 ## Limitations and future work
 
