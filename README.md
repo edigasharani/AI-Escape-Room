@@ -49,7 +49,7 @@ No paid services are required; a free Gemini API key is enough.
 ## Install and run
 
 ```bash
-git clone https://github.com/sharani-ediga/AI-Escape-Room.git
+git clone https://github.com/edigasharani/AI-Escape-Room.git
 cd AI-Escape-Room
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\\Scripts\\activate
