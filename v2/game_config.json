@@ -1,0 +1,128 @@
+{
+  "title": "The Locked Library",
+  "intro": "You wake up on the cold floor of an old library. Dust hangs in the lamplight. The heavy oak door is sealed with a four-digit keypad, and nobody is coming to help you. Look around, examine things, collect items and think your way out.",
+  "instructions": [
+    "Type what you want to do in plain English, e.g. *examine the desk* or *use the key on the painting*.",
+    "You can *take* items, check your *inventory*, enter *codes* and ask for a *hint*.",
+    "Only things that really exist in the room can be used. Claims or demands do not change the room, only actions do.",
+    "Use the **Restart** button in the sidebar to start over."
+  ],
+  "objects": {
+    "desk": {
+      "name": "writing desk",
+      "aliases": ["desk", "writing desk", "table"],
+      "examine": "A worn oak desk. Under the blotter you find a note in elegant handwriting: 'Order matters on the shelf. What the painter hides needs something small and brass.'",
+      "reveals_clues": ["desk_note"]
+    },
+    "bookshelf": {
+      "name": "bookshelf",
+      "aliases": ["bookshelf", "shelf", "shelves", "bookcase"],
+      "examine": "A tall bookshelf full of leather spines. Four red books stand out, shelved a little crooked, as if they were pulled out and put back many times.",
+      "reveals_clues": ["books_seen"]
+    },
+    "books": {
+      "name": "four red books",
+      "aliases": ["books", "red books", "four books", "four red books", "crooked books", "red book"],
+      "requires_clue": "books_seen",
+      "examine": "You open the red books from left to right. Inside each cover is a handwritten number: 2, 7, 1 and 8.",
+      "reveals_clues": ["books_digits"],
+      "facts_digits": "2718"
+    },
+    "painting": {
+      "name": "painting",
+      "aliases": ["painting", "picture", "portrait", "frame"],
+      "examine": "A portrait of a stern librarian. The bottom of the frame has a tiny keyhole, and the painting seems to be hinged to the wall.",
+      "examine_unlocked": "The painting hangs open like a small door. Behind it is a wall compartment, holding a folded note.",
+      "lock": "painting_lock"
+    },
+    "drawer": {
+      "name": "drawer",
+      "aliases": ["drawer", "desk drawer", "locked drawer"],
+      "examine": "A small drawer in the desk, secured by a four-dial brass combination lock.",
+      "examine_unlocked": "The drawer stands open. Inside are a small brass key and a torn card.",
+      "lock": "drawer_lock"
+    },
+    "door": {
+      "name": "exit door",
+      "aliases": ["door", "exit", "exit door", "keypad", "oak door"],
+      "examine": "A heavy oak door with a four-digit keypad. The display blinks red.",
+      "examine_unlocked": "The keypad glows green and the door stands open to the night air.",
+      "lock": "door_lock"
+    }
+  },
+  "items": {
+    "brass_key": {
+      "name": "brass key",
+      "aliases": ["brass key", "small key", "key"],
+      "examine": "A small brass key. Its bow is shaped like a picture frame.",
+      "take_text": "You pick up the small brass key."
+    },
+    "torn_card": {
+      "name": "torn card",
+      "aliases": ["torn card", "card"],
+      "examine": "A torn card with part of a number written on it: '4 7 _ _'. The rest has been ripped away.",
+      "reveals_clues": ["card_clue"],
+      "facts_digits": "47",
+      "take_text": "You pick up the torn card."
+    },
+    "hidden_note": {
+      "name": "folded note",
+      "aliases": ["folded note", "hidden note", "note", "paper"],
+      "examine": "The folded note reads: 'The last two digits are 0 and 3.'",
+      "reveals_clues": ["note_clue"],
+      "facts_digits": "03",
+      "take_text": "You pick up the folded note."
+    }
+  },
+  "locks": {
+    "drawer_lock": {
+      "object": "drawer",
+      "type": "code",
+      "code": "2718",
+      "locked_text": "The drawer is locked. Its four-dial brass lock needs a code.",
+      "wrong_text": "The dials click, but the lock stays shut. That is not the right code.",
+      "unlock_text": "The dials click into place and the drawer slides open. Inside are a small brass key and a torn card.",
+      "reveals_items": ["brass_key", "torn_card"]
+    },
+    "painting_lock": {
+      "object": "painting",
+      "type": "item",
+      "item": "brass_key",
+      "locked_text": "The painting is stuck fast to the wall. There is a tiny keyhole in the frame.",
+      "wrong_text": "That does not fit the keyhole. Nothing happens.",
+      "unlock_text": "The brass key turns with a soft click. The painting swings open like a door, revealing a hidden compartment with a folded note inside.",
+      "reveals_items": ["hidden_note"]
+    },
+    "door_lock": {
+      "object": "door",
+      "type": "code",
+      "code": "4703",
+      "win": true,
+      "locked_text": "The door is locked. The keypad waits for a four-digit code.",
+      "wrong_text": "The keypad buzzes and flashes red. Wrong code.",
+      "unlock_text": "The keypad turns green, the bolt slides back and the door swings open. You step out into the cool night air. You have escaped!",
+      "reveals_items": []
+    }
+  },
+  "clues": {
+    "desk_note": "Desk note: 'Order matters on the shelf. What the painter hides needs something small and brass.'",
+    "books_seen": "Four red books on the shelf are crooked and stand out.",
+    "books_digits": "Numbers inside the red books, left to right: 2, 7, 1, 8.",
+    "card_clue": "Torn card: the exit code begins with 4 7.",
+    "note_clue": "Folded note: the exit code ends with 0 3."
+  },
+  "secrets": [
+    {"id": "drawer_code", "value": "2718", "revealed_by": ["books_digits"]},
+    {"id": "door_code", "value": "4703", "revealed_by": ["card_clue", "note_clue"]}
+  ],
+  "hints": [
+    {"until": "clue:books_seen", "text": "Hint: examine the bookshelf. Something there looks out of place."},
+    {"until": "clue:books_digits", "text": "Hint: take a closer look at the books that stick out."},
+    {"until": "lock:drawer_lock", "text": "Hint: you have four numbers, and the drawer has a four-dial lock."},
+    {"until": "item:brass_key", "text": "Hint: there is something small and brass in the open drawer. Take it."},
+    {"until": "lock:painting_lock", "text": "Hint: a tiny keyhole needs a tiny key. Try using the key on the painting."},
+    {"until": "clue:card_clue", "text": "Hint: examine the torn card from the drawer."},
+    {"until": "clue:note_clue", "text": "Hint: examine the folded note from behind the painting."},
+    {"until": "lock:door_lock", "text": "Hint: you hold two halves of the exit code. Put them together and enter them at the door."}
+  ]
+}
